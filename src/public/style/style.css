@@ -21,3 +21,26 @@
     background-color: #04AA6D;
     color: white;
 }
+
+.form-add-new {
+    width: 500px;
+    margin: auto;
+    margin-top: 100px;
+}
+
+
+.form-add-new fieldset {
+    padding: 20px;
+}
+
+.form-add-new .input-group {
+    padding: 10px;
+}
+
+.form-add-new button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #04AA6D;
+    color: white;
+}

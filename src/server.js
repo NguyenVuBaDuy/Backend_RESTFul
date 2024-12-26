@@ -17,7 +17,7 @@ app.use('/', webRoutes)
 connection.query(
     'select * from Users',
     function (err, results, fields) {
-        console.log(">>>check results", results)
+        // console.log(">>>check results", results)
     }
 )
 
