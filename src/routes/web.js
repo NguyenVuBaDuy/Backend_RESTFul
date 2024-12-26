@@ -1,11 +1,11 @@
 const express = require('express')
-const { getHomePage, getABC, postCreateUser } = require('../controllers/home.controller.js')
+const { getHomePage, getABC, postCreateUser, getCreatePage } = require('../controllers/home.controller.js')
 const router = express.Router()
 
 
 router.get("/", getHomePage)
 router.get("/abc", getABC)
-
+router.get('/create', getCreatePage)
 router.post("/create-user", postCreateUser)
 
 

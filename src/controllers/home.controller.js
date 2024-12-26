@@ -1,28 +1,31 @@
 
 const connection = require('../config/database.js')
+const { getAllUsers } = require('../services/crud.services.js')
 
-const getHomePage = (req, res) => {
-    return res.render('home.page.ejs')
+const getHomePage = async (req, res) => {
+    const users = await getAllUsers()
+    return res.render('home.page.ejs', { users })
 }
 
 const getABC = (req, res) => {
     res.render('sample.ejs')
 }
 
-const postCreateUser = (req, res) => {
+const postCreateUser = async (req, res) => {
     const { email, name, city } = req.body
-    connection.query(
-        `INSERT INTO 
-        Users(email, name, city) 
-        VALUES(?,?,?) `,
-        [email, name, city], function (err, results) {
-            console.log(results)
-            res.send("Create user successfully")
-        })
+    const [results, fields] = await connection.query(
+        `INSERT INTO Users(email, name, city) VALUES(?,?,?) `, [email, name, city]
+    )
+    res.send('Create User Successfully')
+}
+
+const getCreatePage = (req, res) => {
+    res.render('create.user.ejs')
 }
 
 module.exports = {
     getHomePage,
     getABC,
-    postCreateUser
+    postCreateUser,
+    getCreatePage
 }

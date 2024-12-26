@@ -14,13 +14,6 @@ config(app)
 app.use('/', webRoutes)
 
 
-connection.query(
-    'select * from Users',
-    function (err, results, fields) {
-        // console.log(">>>check results", results)
-    }
-)
-
 app.listen(PORT, HOST_NAME, () => {
     console.log(`Example app listening on port ${PORT}`)
 })
