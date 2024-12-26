@@ -59,9 +59,11 @@
                 <td><%= user.email %></td>
                 <td><%= user.name %></td>
                 <td><%= user.city %></td>
-                <td>
+                <td style="display: flex;">
                     <a href="/update/<%= user.id %>"><button>Edit</button></a>
-                    <button>Delete</button>
+                    <form action="/delete-user/<%= user.id %>" method="POST">
+                        <button>Delete</button>
+                    </form>
                 </td>
             </tr>
         <% }) %>
