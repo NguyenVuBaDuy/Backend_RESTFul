@@ -11,9 +11,17 @@ const HOST_NAME = process.env.HOST_NAME
 
 config(app)
 
-app.use('/', webRoutes)
+app.use('/', webRoutes);
 
 
-app.listen(PORT, HOST_NAME, () => {
-    console.log(`Example app listening on port ${PORT}`)
-})
+(async () => {
+    try {
+        await connection();
+        app.listen(PORT, HOST_NAME, () => {
+            console.log(`App listening on port ${PORT}`)
+        });
+    } catch (error) {
+        console.log("Error connect to database : ", error)
+    }
+})()
+
