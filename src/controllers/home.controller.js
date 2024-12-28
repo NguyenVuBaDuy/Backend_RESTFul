@@ -1,9 +1,9 @@
 
-const connection = require('../config/database.js')
-const { getAllUsers, getUserByID, createUser, updateUser, deleteUser } = require('../services/crud.services.js')
+const { getUserByID, deleteUser } = require('../services/crud.services.js')
+const User = require('../models/user.js')
 
 const getHomePage = async (req, res) => {
-    const users = await getAllUsers()
+    const users = await User.find({})
     return res.render('home.page.ejs', { users })
 }
 
@@ -13,8 +13,8 @@ const getABC = (req, res) => {
 
 const postCreateUser = async (req, res) => {
     const { email, name, city } = req.body
-    createUser(email, name, city)
-    res.send('Create User Successfully')
+    await User.create({ email, name, city })
+    res.send('Successfully Created User')
 }
 
 const getCreatePage = (req, res) => {
@@ -23,28 +23,27 @@ const getCreatePage = (req, res) => {
 
 const getUpdatePage = async (req, res) => {
     const id = req.params.id
-    const user = await getUserByID(id)
-    if (user.length > 0) res.render('edit.user.ejs', { user: user[0] })
-    else res.send("Don't have user have this id")
+    let user = await User.findById(id).exec()
+    res.render('edit.user.ejs', { user })
 }
 
 const postUpdateUser = async (req, res) => {
     const { email, name, city, id } = req.body
-    updateUser(id, email, name, city)
+    await User.updateOne({ _id: id }, { name, email, city })
     res.redirect('/')
 }
 
 const postDeleteUser = async (req, res) => {
     const id = req.params.id
-    const user = await getUserByID(id)
-    console.log(user)
-    res.render("delete.user.ejs", { user: user[0] })
+    let user = await User.findById(id).exec()
+    res.render("delete.user.ejs", { user })
 }
 
 const postHandleRemove = async (req, res) => {
     const id = req.body.id
-    console.log(id)
-    deleteUser(id)
+    await User.deleteOne({
+        _id: id
+    })
     res.redirect('/')
 }
 
