@@ -3,6 +3,7 @@ const express = require('express')
 const path = require('path')
 const config = require('./config/config.js')
 const webRoutes = require('./routes/web.js')
+const apiRoutes = require('./routes/api.js')
 const connection = require('./config/database.js')
 
 const app = express()
@@ -12,6 +13,7 @@ const HOST_NAME = process.env.HOST_NAME
 config(app)
 
 app.use('/', webRoutes);
+app.use('/v1/api', apiRoutes);
 
 
 
