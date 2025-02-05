@@ -1,5 +1,6 @@
 
 const connection = require('../config/database.js')
+const User = require('../models/user.js')
 
 const getAllUsers = async () => {
     const [results, fields] = await connection.query(
@@ -9,37 +10,22 @@ const getAllUsers = async () => {
 }
 
 const getUserByID = async (id) => {
-    const [results, fields] = await connection.query(
-        'select * from Users where Users.id=?',
-        [id]
-    )
+    const results = await User.findById(id).exec()
     return results
 }
 
 const createUser = async (email, name, city) => {
-    const [results, fields] = await connection.query(
-        `INSERT INTO Users(email, name, city) VALUES(?,?,?) `, [email, name, city]
-    )
-    return results
+    await User.create({
+        email, name, city
+    })
 }
 
 const updateUser = async (id, email, name, city) => {
-    const [results, fields] = await connection.query(
-        `UPDATE Users
-         SET email=?, name=?, city= ?
-         WHERE id=?
-         `, [email, name, city, id]
-    )
-    return results
+    await User.updateOne({ _id: id }, { email, name, city })
 }
 
 const deleteUser = async (id) => {
-    const [results, fields] = await connection.query(
-        `DELETE FROM Users
-         WHERE id=?
-         `, [id]
-    )
-    return results
+    await User.deleteOne({ _id: id })
 }
 
 module.exports = {

@@ -2,8 +2,10 @@
 const connection = require('../config/database.js')
 const { getAllUsers, getUserByID, createUser, updateUser, deleteUser } = require('../services/crud.services.js')
 
+const User = require('../models/user.js')
+
 const getHomePage = async (req, res) => {
-    const users = await getAllUsers()
+    const users = await User.find({})
     return res.render('home.page.ejs', { users })
 }
 
@@ -24,7 +26,7 @@ const getCreatePage = (req, res) => {
 const getUpdatePage = async (req, res) => {
     const id = req.params.id
     const user = await getUserByID(id)
-    if (user.length > 0) res.render('edit.user.ejs', { user: user[0] })
+    if (user) res.render('edit.user.ejs', { user })
     else res.send("Don't have user have this id")
 }
 
@@ -37,13 +39,11 @@ const postUpdateUser = async (req, res) => {
 const postDeleteUser = async (req, res) => {
     const id = req.params.id
     const user = await getUserByID(id)
-    console.log(user)
-    res.render("delete.user.ejs", { user: user[0] })
+    res.render("delete.user.ejs", { user })
 }
 
 const postHandleRemove = async (req, res) => {
     const id = req.body.id
-    console.log(id)
     deleteUser(id)
     res.redirect('/')
 }
