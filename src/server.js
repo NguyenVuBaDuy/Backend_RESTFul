@@ -4,9 +4,13 @@ const config = require('./config/config.js')
 const webRoutes = require('./routes/web.js')
 const apiRoutes = require('./routes/api.js')
 const connection = require('./config/database.js')
+const fileUpload = require('express-fileupload');
 const app = express()
 const PORT = process.env.PORT || 8888
 const HOST_NAME = process.env.HOST_NAME
+
+// default options
+app.use(fileUpload());
 
 config(app)
 
